@@ -32,3 +32,24 @@ class test_User(test_basemodel):
         """ """
         new = self.value()
         self.assertEqual(type(new.password), str)
+	
+    def test_init_with_first_name(self):
+        """Test initialization of User with a first name"""
+        user = User(first_name="John")
+        self.assertEqual(user.first_name, "John")
+
+
+    def test_attribute_modification(self):
+        """Test modification of User attributes"""
+        user = User()
+        user.first_name = "Alice"
+        self.assertEqual(user.first_name, "Alice")
+
+
+    def test_deletion(self):
+        """Test deletion of User instance"""
+        user = User()
+        user_id = user.id
+        user.delete()
+        self.assertIsNone(User.get(user_id))
+
