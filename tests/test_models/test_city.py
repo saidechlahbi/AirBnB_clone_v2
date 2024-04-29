@@ -95,5 +95,49 @@ class TestCity(unittest.TestCase):
         self.assertEqual('to_dict' in dir(self.city), True)
 
 
+class TestAdditionalPlaceMethods(unittest.TestCase):
+    """Additional test functions for Place class"""
+
+    def test_init_with_name(self):
+        """Test initialization of Place with a name"""
+        place = Place(name="Luxury Villa")
+        self.assertEqual(place.name, "Luxury Villa")
+
+    def test_init_without_name(self):
+        """Test initialization of Place without providing a name"""
+        place = Place()
+        self.assertEqual(place.name, "")
+
+    def test_attribute_modification(self):
+        """Test modification of Place attributes"""
+        place = Place()
+        place.name = "Beach House"
+        self.assertEqual(place.name, "Beach House")
+
+    def test_deletion(self):
+        """Test deletion of Place instance"""
+        place = Place()
+        place_id = place.id
+        place.delete()
+        self.assertIsNone(Place.get(place_id))
+
+    def test_serialization_with_additional_attrs(self):
+        """Test serialization with additional attributes"""
+        place = Place(name="Mountain Cabin", region="North")
+        place_dict = place.to_dict()
+        self.assertEqual(place_dict['region'], "North")
+
+    def test_str_with_additional_attrs(self):
+        """Test string representation with additional attributes"""
+        place = Place(name="City Apartment", rating=4.5)
+        str_output = "[Place] ({}) {}".format(place.id, place.__dict__)
+        self.assertIn("rating", str_output)
+
+    def test_update(self):
+        """Test update of Place attributes"""
+        place = Place(name="Countryside Retreat")
+        place.update(name="Forest Lodge")
+        self.assertEqual(place.name, "Forest Lodge")
+
 if __name__ == "__main__":
     unittest.main()
